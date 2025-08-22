@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { Link, NavLink } from 'react-router';
+import { useContext } from 'react';
 import { toast } from 'react-toastify';
 import { AuthContext } from '@/context/AuthContext';
-import { signOut } from '@/data';
+
 
 
 // Note from Martha: The useContext hook retrieves the user and setUser from AuthContext. 
@@ -10,7 +10,7 @@ import { signOut } from '@/data';
 
 const Navbar = () => {
   const { user, setUser } = useContext(AuthContext);
-   };
+  
 
   //Note from Martha: User notification Logout starts here, resets user state
   const logOut = async () => {
@@ -36,7 +36,6 @@ const Navbar = () => {
           </span>
         </Link>
       </div>
-      
  <div className='flex-none'>
         <ul className='menu menu-horizontal px-1'>
           <li>
@@ -60,5 +59,6 @@ const Navbar = () => {
       </div>
     </div>
   );
+   };
 
 export default Navbar;

@@ -1,6 +1,3 @@
-import Home from './Home';
-import Login from './Login';
-import NotFound from './NotFound';
-import Register from './Register';
+import Navbar from './UI/Navbar';
 
-export { Home, Login, NotFound, Register };
+export { Navbar };

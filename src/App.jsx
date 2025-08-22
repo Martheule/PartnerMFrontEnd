@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router';
 import { RootLayout, ProtectedLayout } from '@/layouts';
-import { CreatePost, Home, Login, NotFound, Post, Register } from '@/pages';
+import { Home, Login, NotFound, Register } from '@/pages';
 
 const App = () => (
   <BrowserRouter>
@@ -9,9 +9,7 @@ const App = () => (
         <Route index element={<Home />} />
         <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />
-        <Route path='post/:id' element={<Post />} />
-        <Route path='create' element={<ProtectedLayout />}>
-          <Route index element={<CreatePost />} />
+        <Route path='create' element={<ProtectedLayout />} >
         </Route>
         <Route path='*' element={<NotFound />} />
       </Route>
@@ -19,11 +17,5 @@ const App = () => (
   </BrowserRouter>
 );
 
-
-// const App = () => {
-// return <h1 className='text-3xl font-bold underline'>React + TailwindCSS</h1>;
-//};
-
-
-
+// Robin: Named Exports need curly's. defaults exports are without.
 export default App;

@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
-import { me } from '@/data';
+
 
 // Note Martha: Create a context for authentication.
 const AuthContext = createContext();

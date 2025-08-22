@@ -1,7 +1,7 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App.jsx';
+import './index.css';
 
 //Note from Martha: Retrieves the DOM element with the ID of 'root', where the React application will be mounted.
 // Note from Martha: initializes a new root for rendering, rendering it to specify.
