@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router';
 import { RootLayout, ProtectedLayout } from '@/layouts';
 import { Home, Login, NotFound, Register } from '@/pages';
 
+
 const App = () => (
   <BrowserRouter>
     <Routes>
