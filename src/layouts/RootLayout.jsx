@@ -24,14 +24,15 @@ const [loading, setLoading] = useState(true); // here starting hook loading scre
 // Note Martha:  Navbarlayout
   return (
     <AuthContextProvider>
-      <div className='container mx-auto'>
+      <div className='min-h-screen bg-gradient-to-t from-black to-[#202020] text-white'>
         <ToastContainer
           position='bottom-left'
           autoClose={1500}
           theme='colored'
         />
         <Navbar />
-        <main className='container mx-auto px-4 py-8'></main>
+        <main className="flex-1 w-full px-4 py-8 max-w-screen-xl mx-auto">
+        </main>
         <Outlet />
       </div>
     </AuthContextProvider>

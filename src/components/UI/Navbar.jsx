@@ -26,7 +26,7 @@ const Navbar = () => {
   
 // Note from Martha: A responsive navigation bar using React.
   return (
-    <div className='navbar bg-base-100 px-4'>
+    <div className='navbar bg-base-100/50 backdrop-blur-md shadow-md sticky top-0 z-50'>
        {/* Logo oder Titel */}
       <div className='flex-1'>
         <Link to='/' className='btn btn-ghost normal-case text-xl'>
