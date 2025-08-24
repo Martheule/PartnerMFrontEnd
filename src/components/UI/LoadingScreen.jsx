@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { AuthContext } from '@/context/AuthContext';
 import { signOut } from '@/data/auth';
 
-// Note from Martha: Simple full-screen loading with centered animation
+// Note from Martha: Responsive full-screen loading with centered animation
 const LoadingScreen = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#202020]">
