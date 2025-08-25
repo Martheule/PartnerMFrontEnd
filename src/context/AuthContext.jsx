@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
-import { me } from '@/data/auth';
+import { me, signIn, signUp, signOut } from '@/data/auth';
 
 
 // Note Martha: Create a context for authentication.

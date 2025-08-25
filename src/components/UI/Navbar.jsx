@@ -40,7 +40,7 @@ const Navbar = () => {
         </Link>
       </div>
 
-{/* Burger Menü für kleine Screens */}
+{/* mobile menu aka leckeres Burger Menü für kleine Screens */}
       <div className="dropdown dropdown-end lg:hidden">
         <label tabIndex={0} className="btn btn-ghost btn-circle">
           <svg
@@ -60,8 +60,15 @@ const Navbar = () => {
           <li><NavLink to="/">Home</NavLink></li>
           <li><NavLink to="/create">Create a Circle</NavLink></li>
           <li><NavLink to="/circles">Your Circles</NavLink></li>
-          <li><NavLink to="/login">Login</NavLink></li>
-        </ul>
+           {user ? (
+    <li><button onClick={logOut}>Logout</button></li>
+  ) : (
+    <>
+      <li><NavLink to="/login">Login</NavLink></li>
+      <li><NavLink to="/register">Register</NavLink></li>
+    </>
+  )}
+</ul>
       </div>
 
       {/* Normales Menü auf großen Bildschirmen */}
@@ -74,31 +81,6 @@ const Navbar = () => {
     </div>
   );
 
-
-
-
-     {/* Normales Menü auf großen Bildschirmen */}
- <div className='flex-none'>
-        <ul className='menu menu-horizontal px-1'>
-          <li>
-            <NavLink to='/'>Home</NavLink>
-          </li>
-          <li>
-            <NavLink to=''>Create a Circle</NavLink>
-          </li>
-         <li>
-            <NavLink to=''>Your Circles</NavLink>
-          </li>
-          <li>{!user && <NavLink to='/register'>Register</NavLink>}</li>
-          <li>
-            {user ? (
-              <button onClick={logOut}>Logout</button>
-            ) : (
-              <NavLink to='/login'>Login</NavLink>
-            )}
-          </li>
-        </ul>
-      </div>
 
    };
 

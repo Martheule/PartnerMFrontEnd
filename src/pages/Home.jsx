@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
-  const [posts, setPosts] = useState([]);
+  const [] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -19,14 +19,6 @@ const Home = () => {
     })();
   }, []);
 
-  if (loading) return <PostsSkeleton />;
-  return (
-    <div className='grid grid-cols-1 lg:grid-cols-4 gap-4 '>
-      {posts.map((post) => (
-        <PostCard key={post._id} {...post} />
-      ))}
-    </div>
-  );
 };
 
 export default Home;
