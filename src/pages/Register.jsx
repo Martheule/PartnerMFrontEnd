@@ -29,8 +29,9 @@ const Register = () => {
       setLoading(true);
 
       await signUp({ firstName, lastName, email, password });
+      setUser(user);
       toast.success('Succesfully signed up!'); //For better user feedback CJourney
-      navigate('/login');
+      navigate('/');
     } catch (error) {
       toast.error(error.message);
     } finally {
