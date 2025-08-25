@@ -1,7 +1,7 @@
 const API_URL = import.meta.env.VITE_APP_NAME_HERE_API_URL;
 if (!API_URL)
   throw new Error('API URL is required, are you missing a .env file?');
-const baseURL = `${API_URL}/auth`; //http://localhost:4000/auth
+const baseURL = `${API_URL}/auth`; //http://localhost:4321/auth
 
 //This function only takes care of sending a POST request
 export const signUp = async (formData) => {
