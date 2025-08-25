@@ -2,7 +2,7 @@ import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { AuthContext } from '@/context/AuthContext';
-
+import { signIn } from "@/data/auth";
 
 // Note Martha: useState hook initializes the email and password fields
 // Note Martha: + loading state to manage the loading status during the login process.

@@ -9,6 +9,8 @@ export const signUp = async (formData) => {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(formData),
+    // Note Martha: cookie for backend session
+    credentials: 'include', 
   });
 
   if (!res.ok) throw new Error('Error while signing up!');
@@ -22,7 +24,8 @@ export const signIn = async (formData) => {
     credentials: 'include', //To recieve cookies
   });
 
-  if (!res.ok) throw new Error('Error while signing in!');
+  if (!res.ok) 
+    throw new Error('Error while signing in!');
 
   const data = await res.json();
   return data;
