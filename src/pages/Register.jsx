@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
+import { signUp } from '@/data/auth';
 
 
 const Register = () => {
@@ -28,7 +29,7 @@ const Register = () => {
       setLoading(true);
 
       await signUp({ firstName, lastName, email, password });
-      toast.success('Succesfully signed up!'); //For better user feedback
+      toast.success('Succesfully signed up!'); //For better user feedback CJourney
       navigate('/login');
     } catch (error) {
       toast.error(error.message);

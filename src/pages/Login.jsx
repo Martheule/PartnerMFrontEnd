@@ -40,10 +40,12 @@ const Login = () => {
   };
 
   return (
+      <div className="flex items-center justify-center min-h-[92vh] p-[4%]">
     <form
-      className='my-5 md:w-1/2 mx-auto flex flex-col gap-3'
+      className="w-full max-w-md bg-white/10 backdrop-blur-md p-6 rounded-xl flex flex-col gap-4 text-white"
       onSubmit={handleSubmit}
     >
+            <div className="flex flex-col items-center gap-4"></div>
       <label className='input input-bordered flex items-center gap-2'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -95,7 +97,8 @@ const Login = () => {
         Login
       </button>
     </form>
-  );
+  </div>
+    ); 
 };
 
 export default Login;

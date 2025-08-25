@@ -9,7 +9,7 @@ const AuthContext = createContext();
 const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-// Note Martha: Function to fetch user data and update user Data.
+// Note Martha: Function to fetch user data with me() and update user Data.
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -31,7 +31,7 @@ const AuthContextProvider = ({ children }) => {
     setUser,
   };
 
-  return <AuthContext value={values}>{children}</AuthContext>;
+  return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 };
 
 export { AuthContextProvider, AuthContext };
