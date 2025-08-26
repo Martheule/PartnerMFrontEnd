@@ -1,43 +1,36 @@
 import { useState, useEffect } from 'react'; // for loading screen
-import { Navbar } from '@/components';
 import { Outlet } from 'react-router';
 import { ToastContainer } from 'react-toastify';
 import { AuthContextProvider } from '@/context/AuthContext';
 import 'react-toastify/dist/ReactToastify.css';
 import LoadingScreen from '@/components/UI/LoadingScreen'; // for loading screen
 
+// Note Martha: AuthLayout - ohne Navbar
+const AuthLayout = () => {
+  const [loading, setLoading] = useState(true); // start loading state
 
-// Note Martha:  RootLayout - a function that returns JSX.
-const RootLayout = () => {
-
-const [loading, setLoading] = useState(true); // here starting hook loading screen
-
-  // Note from Martha: Simulate initial loading screen for 3 seconds. DaisyUISPinner
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 3000);
+    const timer = setTimeout(() => setLoading(false), 5000);
     return () => clearTimeout(timer);
   }, []);
 
-  // Note from Martha: Show responsive icon before rendering app
   if (loading) return <LoadingScreen />;
 
-// Note Martha:  Navbarlayout
   return (
     <AuthContextProvider>
-      <div className='min-h-screen bg-gradient-to-t from-black to-[#202020] text-white'>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#edffbe] to-[#6ccf8a] p-[4%] flex-col gap-6 transition-opacity duration-1000 $ text-black">
         <ToastContainer
-          position='bottom-left'
+          position="bottom-left"
           autoClose={1500}
-          theme='colored'
+          theme="colored"
         />
-        <Navbar />
+        {/* keine Navbar */}
         <main className="flex-1 w-full px-4 py-8 max-w-screen-xl mx-auto">
+          <Outlet />
         </main>
-        <Outlet />
       </div>
     </AuthContextProvider>
   );
-
 };
 
-export default RootLayout;
+export default AuthLayout;

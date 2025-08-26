@@ -12,7 +12,7 @@ export const signUp = async (formData) => {
     // Note Martha: cookie for backend session
     credentials: 'include', 
   });
-
+console.log (res);
   if (!res.ok) throw new Error('Error while signing up!');
 };
 
