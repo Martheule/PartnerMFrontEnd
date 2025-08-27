@@ -1,18 +1,27 @@
-import { useState, useEffect } from 'react'; // for loading screen
-import { Outlet } from 'react-router';
+import { useState, useEffect, useContext } from 'react'; // for loading screen
+import { Outlet, useNavigate } from 'react-router';
 import { ToastContainer } from 'react-toastify';
-import { AuthContextProvider } from '@/context/AuthContext';
+import { AuthContextProvider, AuthContext } from '@/context/AuthContext';
 import 'react-toastify/dist/ReactToastify.css';
 import LoadingScreen from '@/components/UI/LoadingScreen'; // for loading screen
 
-// Note Martha: AuthLayout - ohne Navbar
+// Note Martha: AuthLayout - Without Navbar
 const AuthLayout = () => {
   const [loading, setLoading] = useState(true); // start loading state
+  const { user } = useContext(AuthContext) || {}; //Martha: get user out of contextloop
+  const navigate = useNavigate(); // Martha: Redirect
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 5000);
+    const timer = setTimeout(() => setLoading(false), 3000);
     return () => clearTimeout(timer);
   }, []);
+
+    // Martha: Redirect if User not logged in.
+  useEffect(() => {
+    if (!loading && user === null) {
+      navigate('/login');
+    }
+  }, [loading, user, navigate]);
 
   if (loading) return <LoadingScreen />;
 

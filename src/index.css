@@ -2,3 +2,9 @@
 @import 'tailwindcss';
 /* stylelint-disable-next-line at-rule-no-unknown */
 @plugin "daisyui";
+
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}

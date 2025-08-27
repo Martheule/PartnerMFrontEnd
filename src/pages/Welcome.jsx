@@ -18,7 +18,7 @@ const Welcome = () => {
         navigate('/login'); // Note Martha: nach weiteren 0.5s weiter zu Login
       }, 500); // Dauer entspricht Login Fade-Out
       return () => clearTimeout(t2);
-    }, 6000); // 6 Sekunden Welcome
+    }, 3000); // 3 Sekunden Welcome
 
     return () => {
       clearTimeout(fadeInTimer);
@@ -36,17 +36,17 @@ const Welcome = () => {
 
   return (
     <div
-      className={`flex flex-col items-center justify-center h-screen bg-gradient-to-b from-[#edffbe] to-[#6ccf8a] text-white gap-6 p-[4%] transition-opacity duration-500 ${
-        visible ? 'opacity-100' : 'opacity-0'
+      className={`flex flex-col items-center justify-center h-screen bg-transparent p-[4%] fixed inset-0 ${
+      visible ? 'opacity-100' : 'opacity-0'
       }`} // Note Martha: Fade-In/Fade-Out
     >
-      {/* Rundes Logo Platzhalter */}
+      {/* User Name */}
       <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center">
         <span className="text-black font-bold">Logo</span>
       </div>
       <br></br>
       <h1 className="text-4xl font-bold text-black">Welcome!</h1>
-      <p className="text-black/80">Get ready to sign in to your account</p>
+      <p className="text-black/80">Hier kommt ein Button hin.</p>
     </div>
   );
 };
