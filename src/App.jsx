@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { RootLayout, ProtectedLayout, AuthLayout } from '@/layouts';
-import { Home, Login, NotFound, Register, Welcome, AfterLogin, FirstTimeAfterLogin } from '@/pages';
-
+import { Home, Login, NotFound, Register, Welcome, CircleRouter, AfterLoginCreate, InviteFriend, FindYourMood, InvitationScreen } from '@/pages';
 
 
 const App = () => (
@@ -12,8 +11,11 @@ const App = () => (
         <Route path="/" element={<Welcome />} />
         <Route path="login" element={<Login />} /> 
         <Route path="register" element={<Register />} />
-        <Route path="after-login" element={<AfterLogin />} />
-        <Route path="First-login" element={<FirstTimeAfterLogin />} />
+        <Route path="circle" element={<CircleRouter />} />
+        <Route path="InviteFriend" element={<InviteFriend />} />
+        <Route path="AfterLoginCreate" element={<AfterLoginCreate/>} />
+        <Route path="FindYourMood" element={<FindYourMood/>} />
+        <Route path="InvitationScreen" element={<InvitationScreen/>} />
       </Route>
 
       {/* Seiten mit Navbar */}
