@@ -2,33 +2,37 @@ import UserTopBar from "@/components/UI/UserHeader";
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "@/context/AuthContext";
+import { BASE_URL } from "@/config/api";
 
 const AfterLoginCreate = () => {
   const [circleName, setCircleName] = useState("");
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  // NEW FUNCTIONALITY: Create Circle and go to FindYourMood
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // Beispiel POST Request – passe Endpoint + Token an!
-      const res = await fetch("/circle", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // oder aus Context
-        },
-        body: JSON.stringify({ circleName }),
-      });
 
-      if (!res.ok) throw new Error("Failed to create circle");
-
-      const data = await res.json();
-      console.log("Circle created:", data);
+        //Note from Martha: Centralized URL in API
+      const createCircle = async () => {
+        const res = await fetch(`${BASE_URL}/circle`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({ circleName }),
+        });
+        const data = await res.json();
+        console.log(data);
+      };
 
       // Nach erfolgreichem Erstellen zur FindYourMood-Seite navigieren
-      navigate("/FindYourMood");
+      // NEW FUNCTIONALITY
+      navigate("/FindYourMood", { state: { circleId: data.id } }); 
+      // circleId wird weitergegeben, um die Antworten später zu speichern
 
     } catch (err) {
       console.error(err);
