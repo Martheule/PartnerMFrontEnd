@@ -1,7 +1,9 @@
-import UserTopBar from "@/components/UI/UserHeader";
-import { useState, useContext } from "react";
-import { AuthContext } from "@/context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import React from 'react'
 
+const QuestionSheet2 = () => {
+  return (
+    <div>QuestionSheet2</div>
+  )
+}
 
-export default QuestionSheet2;
+export default QuestionSheet2

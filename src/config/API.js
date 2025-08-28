@@ -6,9 +6,3 @@ if (!API_URL) {
 }
 
 export const BASE_URL = API_URL;
-
-export const API = {
-  AUTH: `${BASE_URL}/auth`,
-  CIRCLE: `${BASE_URL}/circle`,
-  USER: `${BASE_URL}/user`,
-};
