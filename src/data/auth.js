@@ -12,8 +12,9 @@ export const signUp = async (formData) => {
     // Note Martha: cookie for backend session
     credentials: 'include', 
   });
-console.log (res);
+// console.log (res);
   if (!res.ok) throw new Error('Error while signing up!');
+    return await res.json(); // should return user info (but token is in cookie)
 };
 
 export const signIn = async (formData) => {
@@ -27,8 +28,9 @@ export const signIn = async (formData) => {
   if (!res.ok) 
     throw new Error('Error while signing in!');
 
-  const data = await res.json();
-  return data;
+  //const data = await res.json();
+  return await res.json();
+//  return data;
 };
 
 export const signOut = async () => {
@@ -40,11 +42,11 @@ export const signOut = async () => {
   if (!res.ok) throw new Error('Invalid token');
 };
 
-export const me = async () => {
-  const res = await fetch(`${baseURL}/me`, { credentials: 'include' });
+export const me = async (token) => {
+  const res = await fetch(`${baseURL}/me`, {
+    credentials: 'include',  // ✅ cookie is automatically sent
+  });
 
   if (!res.ok) throw new Error('Invalid token');
-
-  const data = await res.json();
-  return data;
+  return await res.json();
 };

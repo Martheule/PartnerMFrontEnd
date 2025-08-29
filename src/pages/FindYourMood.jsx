@@ -6,10 +6,13 @@ import { useNavigate } from "react-router-dom";
 const FindYourMood = () => {
   const navigate = useNavigate();
 
-  const handleStartMoodIdentify = () => {
-    navigate("/MoodIdentify"); // Navigiert zum Rage-Katalog
-  };
+//  const handleStartMoodIdentify = () => {
+//    navigate("/MoodIdentify"); // Navigiert zum Rage-Katalog
+//  };
 
+const handleCreateCircleClick = () => {
+  navigate("/MoodIdentify");
+};
 
   return (
     <>

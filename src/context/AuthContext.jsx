@@ -10,7 +10,15 @@ const AuthContextProvider = ({ children }) => {
   const [token, setToken] = useState(null); // Martha: holds the JWT token
 
   // Note Martha: Function to fetch user data with me() and update user Data.
-  useEffect(() => {
+useEffect(() => {
+  me()
+    .then(setUser)
+    .catch(() => {
+      console.log('Invalid session');
+      setUser(null);
+    });
+}, []);
+  /*   useEffect(() => {
     const savedToken = localStorage.getItem("token");
     if (savedToken) {
       setToken(savedToken);
@@ -19,12 +27,16 @@ const AuthContextProvider = ({ children }) => {
         .catch(() => {
           console.log('Invalid token');
           setUser(null);
-          setToken(null);
+        setToken(null);
         });
     }
-  }, []);
+  }, []); */
 
-  // Note Martha: Login function (calls backend, stores token, sets user)
+
+
+//Before Aug 29th
+  
+/*   // Note Martha: Login function (calls backend, stores token, sets user)
   const login = async ({ email, password }) => {
     try {
       const data = await signIn({ email, password });
@@ -36,9 +48,24 @@ const AuthContextProvider = ({ children }) => {
       console.error(err);
       return false;
     }
-  };
+  }; */
 
-  // Note Martha: Register function
+
+const login = async ({ email, password }) => {
+  try {
+    const data = await signIn({ email, password });
+    setUser(data.user);  // ✅ user comes from backend
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
+
+
+//Before Aug 29th
+/*   // Note Martha: Register function
   const register = async ({ email, password }) => {
     try {
       const data = await signUp({ email, password });
@@ -50,9 +77,24 @@ const AuthContextProvider = ({ children }) => {
       console.error(err);
       return false;
     }
-  };
+  }; */
 
-  // Note Martha: Logout function (clears backend + local storage)
+  const register = async ({ email, password }) => {
+  try {
+    const data = await signUp({ email, password });
+    setUser(data.user);
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
+
+
+//Before Aug 29th
+
+/*   // Note Martha: Logout function (clears backend + local storage)
   const logout = async () => {
     try {
       await signOut();
@@ -63,7 +105,18 @@ const AuthContextProvider = ({ children }) => {
       setToken(null);
       setUser(null);
     }
-  };
+  }; */
+
+  const logout = async () => {
+  try {
+    await signOut();
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setUser(null);
+  }
+};
+
 
   // Note Martha: Context value provided.
   const values = {
