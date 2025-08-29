@@ -14,14 +14,25 @@ const AfterLoginCreate = () => {
     e.preventDefault();
 
 try {
-      const res = await fetch(`${BASE_URL}/circle`, {
+
+const res = await fetch(`${BASE_URL}/circle`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  credentials: "include", // ✅ send cookie with request
+  body: JSON.stringify({ circleName }),
+});
+
+
+/*       const res = await fetch(`${BASE_URL}/circle`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({ circleName }),
-      });
+      }); */
       const data = await res.json();
       console.log(data);
       // Nach erfolgreichem Erstellen zur FindYourMood-Seite navigieren
