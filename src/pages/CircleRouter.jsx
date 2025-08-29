@@ -14,7 +14,10 @@ const CircleRouter = () => {
       try {
         if (!token) return; // Note Martha: kein Token → kein fetch
         const res = await fetch("/circle/my-circle", {
-          headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
         });
         const data = await res.json();
         setCircleData(data);

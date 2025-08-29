@@ -32,9 +32,9 @@ const InviteFriend = () => {
 
       const response = await fetch('/invite/send', {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+       headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({ 
           email: email.trim(),

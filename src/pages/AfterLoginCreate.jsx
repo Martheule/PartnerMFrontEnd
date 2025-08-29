@@ -13,27 +13,21 @@ const AfterLoginCreate = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-
-        //Note from Martha: Centralized URL in API
-      const createCircle = async () => {
-        const res = await fetch(`${BASE_URL}/circle`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify({ circleName }),
-        });
-        const data = await res.json();
-        console.log(data);
-      };
-
+try {
+      const res = await fetch(`${BASE_URL}/circle`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ circleName }),
+      });
+      const data = await res.json();
+      console.log(data);
       // Nach erfolgreichem Erstellen zur FindYourMood-Seite navigieren
       // NEW FUNCTIONALITY
-      navigate("/FindYourMood", { state: { circleId: data.id } }); 
+      navigate("/FindYourMood", { state: { circleId: data.id } });
       // circleId wird weitergegeben, um die Antworten später zu speichern
-
     } catch (err) {
       console.error(err);
     }
