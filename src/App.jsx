@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { RootLayout, ProtectedLayout, AuthLayout } from '@/layouts';
-import { Home, Login, NotFound, Register, Welcome, CircleRouter, AfterLoginCreate, InviteFriend, FindYourMood, InvitationScreen, QuestionSheet4, QuestionSheet3, QuestionSheet2, QuestionSheet1 } from '@/pages';
+import { Home, Login, NotFound, Register, Welcome, CircleRouter, AfterLoginCreate, InviteFriend, FindYourMood, InvitationScreen, QuestionSheet4, QuestionSheet3, QuestionSheet2, QuestionSheet1, TrackingBoard2, TrackingBoard1, ForgotPasswordSend } from '@/pages';
 
 
 const App = () => (
@@ -20,6 +20,9 @@ const App = () => (
         <Route path="QuestionSheet2" element={<QuestionSheet2/>} />
         <Route path="QuestionSheet3" element={<QuestionSheet3/>} />
         <Route path="QuestionSheet4" element={<QuestionSheet4/>} />
+        <Route path="ForgotPasswordSend" element={<ForgotPasswordSend/>} />
+        <Route path="TrackingBoard1" element={<TrackingBoard1/>} />
+        <Route path="TrackingBoard2" element={<TrackingBoard2/>} />
       </Route>
 
       {/* Seiten mit Navbar */}

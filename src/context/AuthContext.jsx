@@ -1,5 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
 import { signIn, signUp, signOut, me } from '@/data/auth';
+import Login from "@/pages/Login"; // fallback to
+import LoadingScreen from "@/components/UI/LoadingScreen"; 
 
 // Note Martha: Create a context for authentication.
 const AuthContext = createContext();
@@ -8,126 +10,101 @@ const AuthContext = createContext();
 const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null); // Martha: holds the JWT token
+  const [loading, setLoading] = useState(true); 
 
-  // Note Martha: Function to fetch user data with me() and update user Data.
-useEffect(() => {
-  me()
-    .then(setUser)
-    .catch(() => {
-      console.log('Invalid session');
-      setUser(null);
-    });
-}, []);
-  /*   useEffect(() => {
-    const savedToken = localStorage.getItem("token");
-    if (savedToken) {
-      setToken(savedToken);
-      me(savedToken)
-        .then(setUser)
-        .catch(() => {
-          console.log('Invalid token');
-          setUser(null);
-        setToken(null);
-        });
-    }
-  }, []); */
+  // Note Martha: Function to fetch user data with me() and update user Data. Session check on mount
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const data = await me();
+        setUser(data?.user || null);
+      } catch (err) {
+        console.warn("Invalid session", err);
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    checkSession();
+  }, []);
 
-
-
-//Before Aug 29th
-  
-/*   // Note Martha: Login function (calls backend, stores token, sets user)
-  const login = async ({ email, password }) => {
-    try {
-      const data = await signIn({ email, password });
-      localStorage.setItem("token", data.token); // Martha: store token
-      setToken(data.token);
-      setUser(data.user);
-      return true;
-    } catch (err) {
-      console.error(err);
-      return false;
-    }
-  }; */
-
-
-const login = async ({ email, password }) => {
+  // login: returns true on success, false on failure
+  const login = async (credentials) => {
   try {
-    const data = await signIn({ email, password });
-    setUser(data.user);  // ✅ user comes from backend
-    return true;
+    const result = await signIn(credentials);
+
+    // Case A: signIn returns { ok, status, data }
+    if (result && typeof result === 'object' && 'ok' in result) {
+      if (!result.ok) return false;
+      const payload = result.data ?? result;
+      if (payload?.user) setUser(payload.user);
+      if (payload?.token) {
+        setToken(payload.token);
+        localStorage.setItem('token', payload.token);
+      }
+      return true;
+    }
+
+    // Case B: fallback for older style
+    if (result) {
+      const payload = result;
+      if (payload?.user || Object.keys(payload).length) {
+        if (payload.user) setUser(payload.user);
+        if (payload?.token) {
+          setToken(payload.token);
+          localStorage.setItem('token', payload.token);
+        }
+        return true;
+      }
+    }
+
+    return false;
   } catch (err) {
-    console.error(err);
+    console.warn('login failed (caught):', err);
     return false;
   }
 };
 
 
-
-//Before Aug 29th
-/*   // Note Martha: Register function
+  // register (👈 move this ABOVE values so it's defined)
   const register = async ({ email, password }) => {
     try {
       const data = await signUp({ email, password });
-      localStorage.setItem("token", data.token);
-      setToken(data.token);
-      setUser(data.user);
-      return true;
+      if (data?.user) {
+        setUser(data.user);
+        return true;
+      }
+      return false;
     } catch (err) {
       console.error(err);
       return false;
     }
-  }; */
+  };
 
-  const register = async ({ email, password }) => {
-  try {
-    const data = await signUp({ email, password });
-    setUser(data.user);
-    return true;
-  } catch (err) {
-    console.error(err);
-    return false;
-  }
-};
-
-
-
-//Before Aug 29th
-
-/*   // Note Martha: Logout function (clears backend + local storage)
+  // logout
   const logout = async () => {
     try {
       await signOut();
     } catch (err) {
-      console.error(err);
+      console.warn("sign out failed", err);
     } finally {
-      localStorage.removeItem("token");
-      setToken(null);
       setUser(null);
     }
-  }; */
-
-  const logout = async () => {
-  try {
-    await signOut();
-  } catch (err) {
-    console.error(err);
-  } finally {
-    setUser(null);
-  }
-};
-
-
-  // Note Martha: Context value provided.
-  const values = {
-    user,
-    token,
-    login,     
-    register,
-    logout,    
   };
 
-  return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
+  // Note Martha: Context value provided.
+  const values = { user, login, register, logout };
+
+  // Handle loading / fallback
+  if (loading) {
+    return <LoadingScreen />; // 👈 uses your LoadingScreen.jsx
+  }
+
+  return (
+    <AuthContext.Provider value={values}>
+      {user ? children : <Login />} {/* 👈 fallback to Login instead of black screen */}
+    </AuthContext.Provider>
+  );
 };
 
 export { AuthContextProvider, AuthContext };

@@ -14,5 +14,8 @@ import QuestionSheet1 from './QuestionSheet1';
 import QuestionSheet2 from './QuestionSheet2';
 import QuestionSheet3 from './QuestionSheet3';
 import QuestionSheet4 from './QuestionSheet4';
+import ForgotPasswordSend from './ForgotPasswordSend';
+import TrackingBoard1 from './TrackingBoard1';
+import TrackingBoard2 from './TrackingBoard2';
 
-export { Home, Login, NotFound, Register, Welcome, CircleRouter, CirclePage, CreateCirclePage, AfterLoginCreate, InviteFriend, FindYourMood, InvitationScreen, QuestionSheet1, QuestionSheet2, QuestionSheet3, QuestionSheet4 };
+export { Home, Login, NotFound, Register, Welcome, CircleRouter, CirclePage, CreateCirclePage, AfterLoginCreate, InviteFriend, FindYourMood, InvitationScreen, QuestionSheet1, QuestionSheet2, QuestionSheet3, QuestionSheet4, ForgotPasswordSend, TrackingBoard1, TrackingBoard2 };

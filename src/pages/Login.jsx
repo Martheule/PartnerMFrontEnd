@@ -9,6 +9,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false); // Martha: Fade-In
   const { login } = useContext(AuthContext); // Martha: login function aus Context
+  const [shake, setShake] = useState(false); // shake effekt bei falschem pw
   const navigate = useNavigate();
 
   const handleChange = (e) =>
@@ -35,6 +36,8 @@ const Login = () => {
       }, 300); // Martha: Fade-Out Zeit
     } catch (err) {
       toast.error(err.message || 'Login failed');
+      setShake(true);
+    setTimeout(() => setShake(false), 500);
     } finally {
       setLoading(false);
     }
@@ -51,7 +54,7 @@ const Login = () => {
                   transition-opacity duration-500 ${visible ? 'opacity-100' : 'opacity-0'}`}
     >
       <form
-        className="w-full max-w-md bg-white/10 backdrop-blur-md p-8 rounded-xl flex flex-col gap-4 text-white"
+        className="w-full max-w-md bg-white/10 backdrop-blur-md p-8 rounded-xl flex flex-col gap-4 text-white ${shake ? 'shake' : ''}"
         onSubmit={handleSubmit}
       >
         <div className="flex flex-col items-center gap-4 mb-4">
