@@ -22,7 +22,7 @@ const Login = () => {
       return;
     }
 
-    try {
+   /*  try {
       setLoading(true);
       setVisible(false); // Martha: Fade-Out
       setTimeout(async () => {
@@ -38,6 +38,31 @@ const Login = () => {
       toast.error(err.message || 'Login failed');
       setShake(true);
     setTimeout(() => setShake(false), 500);
+    } finally {
+      setLoading(false);
+    } */
+
+    try {
+      setLoading(true);
+      // Remove setVisible(false) from here
+      
+      const success = await login({ email, password });
+      
+      if (success) {
+        setVisible(false); // Only fade out on success
+        setTimeout(() => {
+          toast.success('Welcome back!');
+          navigate('/circle');
+        }, 300);
+      } else {
+        toast.error('Invalid credentials');
+        setShake(true); // Add shake for wrong password
+        setTimeout(() => setShake(false), 500);
+      }
+    } catch (err) {
+      toast.error(err.message || 'Login failed');
+      setShake(true);
+      setTimeout(() => setShake(false), 500); // Fix missing braces
     } finally {
       setLoading(false);
     }

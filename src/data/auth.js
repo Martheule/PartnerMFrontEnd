@@ -18,6 +18,8 @@ export const signUp = async (formData) => {
 };
 
 export const signIn = async (formData) => {
+  console.log('Sending signin request with data:', formData);
+  console.log('Request URL:', `${baseURL}/signin`);
   const res = await fetch(`${baseURL}/signin`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -25,8 +27,16 @@ export const signIn = async (formData) => {
     credentials: 'include', //To recieve cookies
   });
 
-  if (!res.ok) 
-    throw new Error('Error while signing in!');
+  if (!res.ok) {
+    const errorText = await res.text();
+    console.error("Server error response:", errorText);
+    throw new Error(
+      `Error while signing in! Status: ${res.status}, Response: ${errorText}`
+    );
+  }
+  
+/*   if (!res.ok) 
+    throw new Error('Error while signing in!'); */
 
   //const data = await res.json();
   return await res.json();
@@ -54,6 +64,7 @@ export const me = async (token) => {
   if (!res.ok) throw new Error('Invalid token');
   return await res.json();
 };
+
 
 
 

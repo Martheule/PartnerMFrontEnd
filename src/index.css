@@ -21,4 +21,6 @@ html, body, #root {
 
 .shake {
   animation: shake 0.5s;
+  /* Add this to make it more visible: */
+  border: 2px solid red !important;
 }
