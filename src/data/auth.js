@@ -14,7 +14,7 @@ export const signUp = async (formData) => {
   });
 // console.log (res);
   if (!res.ok) throw new Error('Error while signing up!');
-    return await res.json(); // should return user info (but token is in cookie)
+    return await res.json(); // should rƒeturn user info (but token is in cookie)
 };
 
 export const signIn = async (formData) => {
@@ -42,11 +42,27 @@ export const signOut = async () => {
   if (!res.ok) throw new Error('Invalid token');
 };
 
+
 export const me = async (token) => {
+  const res = await fetch(`${baseURL}/me`, {
+    headers: {
+      'Authorization': `Bearer ${token}`, // Add this line
+    },
+    // Remove credentials: 'include' since you're using JWT tokens
+  });
+
+  if (!res.ok) throw new Error('Invalid token');
+  return await res.json();
+};
+
+
+
+
+/* export const me = async (token) => {
   const res = await fetch(`${baseURL}/me`, {
     credentials: 'include',  // ✅ cookie is automatically sent
   });
 
   if (!res.ok) throw new Error('Invalid token');
   return await res.json();
-};
+}; */

@@ -12,7 +12,39 @@ const AuthContextProvider = ({ children }) => {
   const [token, setToken] = useState(null); // Martha: holds the JWT token
   const [loading, setLoading] = useState(true); 
 
-  // Note Martha: Function to fetch user data with me() and update user Data. Session check on mount
+useEffect(() => {
+  const checkSession = async () => {
+    try {
+      // Check if we have a stored token
+      const storedToken = localStorage.getItem('token');
+      
+      if (storedToken) {
+        // We have a token, so assume user is logged in
+        // You can either:
+        // A) Set a basic user object (if you don't need full user data)
+        // B) Call me() with the token to get fresh user data
+        
+        // Option A (simplest):
+        setUser({ isAuthenticated: true }); // Placeholder user object
+        
+        // Option B (if you want fresh user data):
+        // const data = await me(storedToken); // Pass the token!
+        // setUser(data?.user || null);
+      } else {
+        setUser(null);
+      }
+    } catch (err) {
+      console.warn("Session check failed", err);
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  checkSession();
+}, []);
+
+  /* // Note Martha: Function to fetch user data with me() and update user Data. Session check on mount
   useEffect(() => {
     const checkSession = async () => {
       try {
@@ -27,7 +59,7 @@ const AuthContextProvider = ({ children }) => {
     };
     checkSession();
   }, []);
-
+ */
   // login: returns true on success, false on failure
   const login = async (credentials) => {
   try {
