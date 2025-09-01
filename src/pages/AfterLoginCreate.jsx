@@ -14,7 +14,9 @@ const AfterLoginCreate = () => {
     e.preventDefault();
 
 try {
-
+// ensure token exists
+   const token = localStorage.getItem("token");
+   if (!token) throw new Error("No token found");
 const res = await fetch(`${BASE_URL}/circle`, {
   method: "POST",
   headers: {
@@ -33,8 +35,9 @@ const res = await fetch(`${BASE_URL}/circle`, {
         },
         body: JSON.stringify({ circleName }),
       }); */
+      console.log("Response status:", res.status);
       const data = await res.json();
-      console.log(data);
+      console.log("Response data:", data);
       // Nach erfolgreichem Erstellen zur FindYourMood-Seite navigieren
       // NEW FUNCTIONALITY
       navigate("/FindYourMood", { state: { circleId: data.id } });

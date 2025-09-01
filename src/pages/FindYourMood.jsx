@@ -2,6 +2,7 @@ import UserTopBar from "@/components/UI/UserHeader";
 import { useState, useContext } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { createCircle } from "@/config/circleApi";
 
 const FindYourMood = () => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const FindYourMood = () => {
 //  };
 
 const handleCreateCircleClick = () => {
-  navigate("/MoodIdentify");
+  navigate("/QuestionSheet1");
 };
 
   return (

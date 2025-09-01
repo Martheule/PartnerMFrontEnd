@@ -1,66 +1,114 @@
 import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom"; // ✅ added useLocation
 import { AuthContext } from "@/context/AuthContext";
-import { fetchNextQuestion, submitAnswer } from "@/config/dailyScoreApi";
+import UserTopBar from "@/components/UI/UserHeader";
+
+const API_BASE = "http://localhost:4321"; // ✅ Added: full backend URL
 
 const QuestionSheet1 = () => {
-  const { token } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
+  const initialQuestion = location.state?.question; // passed from FindYourMood
+  const [question, setQuestion] = useState(initialQuestion || null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const [question, setQuestion] = useState(null);
-  const [selectedChoice, setSelectedChoice] = useState(null);
-  const [loading, setLoading] = useState(true);
-
+  // If no question passed, fetch the first question
   useEffect(() => {
-    loadNextQuestion();
+    if (!question) {
+      fetchNextQuestion();
+    }
   }, []);
 
-  const loadNextQuestion = async () => {
+  const fetchNextQuestion = async () => {
+    setLoading(true);
+    setError("");
     try {
-      setLoading(true);
-      const q = await fetchNextQuestion(token);
-      setQuestion(q);
-      setSelectedChoice(null);
+      const res = await fetch(`${API_BASE}/daily-score/next-question`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      // ✅ Added: check content type to prevent HTML parse errors
+      const contentType = res.headers.get("content-type");
+      let data;
+      if (contentType && contentType.includes("application/json")) {
+        data = await res.json();
+      } else {
+        const text = await res.text();
+        throw new Error("Server returned non-JSON response: " + text);
+      }
+
+      if (res.ok) {
+        setQuestion(data);
+      } else {
+        setError(data.message || "Failed to load question.");
+      }
     } catch (err) {
-      console.error(err);
+      setError("Network error: " + err.message);
     } finally {
       setLoading(false);
     }
   };
 
   const handleAnswer = async (choiceId) => {
-    setSelectedChoice(choiceId);
+    if (!question) return;
+
+    setLoading(true);
+    setError("");
     try {
-      await submitAnswer(token, { questionId: question.id, choiceId });
-      navigate("/QuestionSheet2");
+      const res = await fetch(`${API_BASE}/daily-score/answer`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          questionId: question.id,
+          choiceId,
+        }),
+      });
+
+      // ✅ Added: same content-type check
+      const contentType = res.headers.get("content-type");
+      let data;
+      if (contentType && contentType.includes("application/json")) {
+        data = await res.json();
+      } else {
+        const text = await res.text();
+        throw new Error("Server returned non-JSON response: " + text);
+      }
+
+      if (res.ok) {
+        // Fetch the next question after submitting
+        fetchNextQuestion();
+      } else {
+        setError(data.message || "Failed to submit answer.");
+      }
     } catch (err) {
-      console.error(err);
+      setError("Network error: " + err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (!question) return <p>Keine Frage verfügbar</p>;
+  if (loading && !question) return <p>Loading...</p>;
+  if (error) return <p className="text-red-500">{error}</p>;
+  if (!question) return <p>No question available.</p>;
 
   return (
-    <div className="flex flex-col items-center gap-6 p-6">
-      <h2 className="text-xl font-bold">{question.text}</h2>
-      <div className="flex flex-col gap-4">
-        {question.choices.map((c) => (
-          <button
-            key={c.id}
-            onClick={() => handleAnswer(c.id)}
-            className="flex items-center gap-3 p-3 border rounded-full hover:bg-gray-100 transition"
-          >
-            <div
-              className={`w-6 h-6 rounded-full border flex items-center justify-center ${
-                selectedChoice === c.id ? "bg-green-500 text-white" : ""
-              }`}
+    <div className="min-h-screen flex flex-col items-center justify-center p-5">
+      <UserTopBar />
+      <div className="bg-white/20 backdrop-blur-md p-8 rounded-xl flex flex-col items-center gap-6 max-w-md w-full">
+        <h2 className="text-xl font-bold">{question.text}</h2>
+        <div className="flex flex-col gap-4 w-full">
+          {question.choices.map((choice) => (
+            <button
+              key={choice.id}
+              className="btn btn-primary w-full"
+              onClick={() => handleAnswer(choice.id)}
             >
-              {selectedChoice === c.id ? "✓" : ""}
-            </div>
-            <span>{c.label}</span>
-          </button>
-        ))}
+              {choice.text}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );
